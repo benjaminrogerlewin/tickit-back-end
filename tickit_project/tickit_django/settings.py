@@ -40,6 +40,16 @@ INSTALLED_APPS = [
     'tickit',
 ]
 
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'tickit',
+        'USER': 'tickituser',
+        'PASSWORD': 'tickit',
+        'HOST': 'localhost'
+    }
+}
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
