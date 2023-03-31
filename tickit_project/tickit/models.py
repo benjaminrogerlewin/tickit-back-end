@@ -5,11 +5,11 @@ from django.db import models
 class Venue(models.Model):
     name = models.CharField(max_length=100)
     address = models.CharField(max_length=100)
-    phone = models.CharField()
+    phone = models.CharField(max_length=100)
     capacity = models.IntegerField()
     accessible = models.BooleanField()
-    parking = models.CharField()
-    hours = models.CharField()
+    parking = models.CharField(max_length=300)
+    hours = models.CharField(max_length=100)
 
     def __str__(self):
         return self.name
@@ -37,7 +37,7 @@ class Event(models.Model):
     artist = models.CharField(max_length=100)
     date = models.DateField()
     time = models.TimeField()
-    description = models.CharField()
+    description = models.CharField(max_length=500)
     price = models.IntegerField()
     ticket_count = models.IntegerField()
     category = models.CharField(max_length=100)
