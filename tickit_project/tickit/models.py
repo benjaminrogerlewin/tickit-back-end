@@ -28,12 +28,12 @@ class Cart(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='cart')
 
     def __str__(self):
-        return self.user
+        return self.username
     
 
 class Event(models.Model):
     venue = models.ForeignKey(Venue, on_delete=models.CASCADE, related_name='events')
-    cart = models.ForeignKey(Cart, on_delete=models.CASCADE, related_name='events')
+    cart = models.ForeignKey(Cart, on_delete=models.CASCADE, related_name='events', null=True, blank=True)
     artist = models.CharField(max_length=100)
     date = models.DateField()
     time = models.TimeField()
