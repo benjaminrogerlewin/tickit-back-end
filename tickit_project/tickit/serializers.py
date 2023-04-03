@@ -2,41 +2,21 @@ from rest_framework import serializers
 from .models import Venue, User, Cart, Event
 
 
-class VenueSerializer(serializers.HyperlinkedModelSerializer):
-    events = serializers.HyperlinkedRelatedField(
-        view_name='event_detail',
-        many=True,
-        read_only=True,
-    )
-
-    class Meta:
-        model = Venue
-        fields = ('id', 'name', 'address', 'phone',
-                  'capacity', 'accessible', 'parking', 'hours', 'events')
-
-
 class EventSerializer(serializers.HyperlinkedModelSerializer):
     venue = serializers.HyperlinkedRelatedField(
         view_name='venue_detail',
         read_only=True,
     )
 
-    class Meta:
-        model = Event
-        fields = ('id', 'venue', 'artist', 'date', 'time',
-                  'description', 'price', 'ticket_count', 'category', 'all_ages')
-
-
-class UserSerializer(serializers.HyperlinkedModelSerializer):
-    cart = serializers.HyperlinkedRelatedField(
-        view_name='cart_detail',
-        many=False,
-        read_only=True,
+    venue_id = serializers.PrimaryKeyRelatedField(
+        queryset=Venue.objects.all(),
+        source='venue',
     )
 
     class Meta:
-        model = User
-        fields = ('id', 'username', 'email', 'password', 'cart')
+        model = Event
+        fields = ('id', 'venue', 'venue_id', 'artist', 'date', 'time',
+                  'description', 'price', 'ticket_count', 'category', 'all_ages')
 
 
 class CartSerializer(serializers.HyperlinkedModelSerializer):
@@ -50,6 +30,48 @@ class CartSerializer(serializers.HyperlinkedModelSerializer):
         read_only=True,
     )
 
+    user_id = serializers.PrimaryKeyRelatedField(
+        queryset=User.objects.all(),
+        source='user',
+    )
+
+    event_id = serializers.PrimaryKeyRelatedField(
+        queryset=Event.objects.all(),
+        source='events',
+    )
+
     class Meta:
         model = Cart
-        fields = ('id', 'user', 'events')
+        fields = ('id', 'user_id', 'event_id', 'user', 'events')
+
+
+class UserSerializer(serializers.HyperlinkedModelSerializer):
+    cart = serializers.HyperlinkedRelatedField(
+        view_name='cart_detail',
+        many=False,
+        read_only=True,
+    )
+
+    user_url = serializers.ModelSerializer.serializer_url_field(
+        view_name='user_detail',
+    )
+
+    class Meta:
+        model = User
+        fields = ('id', 'user_url', 'username', 'email', 'password', 'cart')
+
+
+class VenueSerializer(serializers.HyperlinkedModelSerializer):
+    events = EventSerializer(
+        many=True,
+        read_only=True,
+    )
+
+    venue_url = serializers.ModelSerializer.serializer_url_field(
+        view_name='venue_detail',
+    )
+
+    class Meta:
+        model = Venue
+        fields = ('id', 'venue_url', 'name', 'address', 'phone',
+                  'capacity', 'accessible', 'parking', 'hours', 'events')
