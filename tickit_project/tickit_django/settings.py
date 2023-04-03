@@ -38,7 +38,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'tickit',
-    'rest_framework'
 ]
 
 REST_FRAMEWORK = {
@@ -89,9 +88,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'tickit_django.wsgi.application'
 
-
-# Database
-# https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
 
 
