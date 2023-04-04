@@ -13,10 +13,23 @@ class EventSerializer(serializers.HyperlinkedModelSerializer):
         source='venue',
     )
 
+    user_id = serializers.PrimaryKeyRelatedField(
+        queryset=User.objects.all(),
+        source='user',
+        allow_null=True,
+        required=False,
+    )
+
     class Meta:
         model = Event
-        fields = ('id', 'venue', 'venue_id', 'artist', 'date', 'time',
+        fields = ('id', 'venue','user_id', 'venue_id', 'artist', 'date', 'time',
                   'description', 'price', 'ticket_count', 'category', 'all_ages')
+        
+    def to_representation(self, instance):
+        data = super().to_representation(instance)
+        if data['user_id'] is None:
+            data.pop('user_id')
+        return data
 
 
 # class CartSerializer(serializers.HyperlinkedModelSerializer):
