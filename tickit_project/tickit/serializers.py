@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Venue, User, Cart, Event
+from .models import Venue, User, Event
 
 
 class EventSerializer(serializers.HyperlinkedModelSerializer):
@@ -19,36 +19,35 @@ class EventSerializer(serializers.HyperlinkedModelSerializer):
                   'description', 'price', 'ticket_count', 'category', 'all_ages')
 
 
-class CartSerializer(serializers.HyperlinkedModelSerializer):
-    user = serializers.HyperlinkedRelatedField(
-        view_name='user_detail',
-        read_only=True,
-    )
-    events = serializers.HyperlinkedRelatedField(
-        view_name='event_detail',
-        many=True,
-        read_only=True,
-    )
+# class CartSerializer(serializers.HyperlinkedModelSerializer):
+#     user = serializers.HyperlinkedRelatedField(
+#         view_name='user_detail',
+#         read_only=True,
+#     )
+#     events = serializers.HyperlinkedRelatedField(
+#         view_name='event_detail',
+#         many=True,
+#         read_only=True,
+#     )
 
-    user_id = serializers.PrimaryKeyRelatedField(
-        queryset=User.objects.all(),
-        source='user',
-    )
+#     user_id = serializers.PrimaryKeyRelatedField(
+#         queryset=User.objects.all(),
+#         source='user',
+#     )
 
-    event_id = serializers.PrimaryKeyRelatedField(
-        queryset=Event.objects.all(),
-        source='events',
-    )
+#     event_id = serializers.PrimaryKeyRelatedField(
+#         queryset=Event.objects.all(),
+#         source='events',
+#     )
 
-    class Meta:
-        model = Cart
-        fields = ('id', 'user_id', 'event_id', 'user', 'events')
+#     class Meta:
+#         model = Cart
+#         fields = ('id', 'user_id', 'event_id', 'user', 'events')
 
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
-    cart = serializers.HyperlinkedRelatedField(
-        view_name='cart_detail',
-        many=False,
+    events = EventSerializer(
+        many=True,
         read_only=True,
     )
 
@@ -58,7 +57,7 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = User
-        fields = ('id', 'user_url', 'username', 'email', 'password', 'cart')
+        fields = ('id', 'user_url', 'username', 'email', 'password', 'events')
 
 
 class VenueSerializer(serializers.HyperlinkedModelSerializer):
