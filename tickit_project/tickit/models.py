@@ -46,6 +46,7 @@ class Event(models.Model):
     ticket_count = models.IntegerField()
     category = models.CharField(max_length=100)
     all_ages = models.BooleanField()
+    image = models.URLField(max_length=255, default='default_image_url')
 
     def __str__(self):
         return self.artist
