@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from rest_framework import generics
-from .serializers import VenueSerializer, EventSerializer, UserSerializer, CartSerializer
-from .models import Venue, User, Cart, Event
+from .serializers import VenueSerializer, EventSerializer, UserSerializer
+from .models import Venue, User, Event
 
 
 class VenueList(generics.ListCreateAPIView):
@@ -34,11 +34,11 @@ class UserDetail(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = UserSerializer
 
 
-class CartList(generics.ListCreateAPIView):
-    queryset = Cart.objects.all()
-    serializer_class = CartSerializer
+# class CartList(generics.ListCreateAPIView):
+#     queryset = Cart.objects.all()
+#     serializer_class = CartSerializer
 
 
-class CartDetail(generics.RetrieveUpdateDestroyAPIView):
-    queryset = Cart.objects.all()
-    serializer_class = CartSerializer
+# class CartDetail(generics.RetrieveUpdateDestroyAPIView):
+#     queryset = Cart.objects.all()
+#     serializer_class = CartSerializer
