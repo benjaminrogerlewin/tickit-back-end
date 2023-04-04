@@ -15,8 +15,11 @@ class VenueDetail(generics.RetrieveUpdateDestroyAPIView):
 
 
 class EventList(generics.ListCreateAPIView):
-    queryset = Event.objects.all()
     serializer_class = EventSerializer
+    
+    def get_queryset(self):
+        queryset = Event.objects.filter(user__isnull=True)
+        return queryset
 
 
 class EventDetail(generics.RetrieveUpdateDestroyAPIView):
