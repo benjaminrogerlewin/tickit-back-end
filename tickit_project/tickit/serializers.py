@@ -16,7 +16,7 @@ class EventSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Event
         fields = ('id', 'venue', 'venue_id', 'artist', 'date', 'time',
-                  'description', 'price', 'ticket_count', 'category', 'all_ages')
+                  'description', 'price', 'ticket_count', 'category', 'all_ages', 'image')
 
 
 # class CartSerializer(serializers.HyperlinkedModelSerializer):
